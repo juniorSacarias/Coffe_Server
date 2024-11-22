@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+const verifyToken = require('./middelwares/authMiddelware');
+
 // Inicializations
 
 const app = express();
@@ -12,6 +14,7 @@ dotenv.config();
 const Port = process.env.PORT || 4000;
 
 const v1CoffeRouter = require('./v1/routes/coffes_routes');
+const v1AuthRouter = require('./v1/routes/auth_routes');
 
 // Middlewares
 
@@ -24,8 +27,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Routes
-
-app.use('/api/v1/coffes', v1CoffeRouter);
+app.use('/api/v1/auth', v1AuthRouter);
+app.use('/api/v1/coffes', verifyToken, v1CoffeRouter);
 
 // Server
 

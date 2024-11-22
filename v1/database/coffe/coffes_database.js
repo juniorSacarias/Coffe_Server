@@ -1,4 +1,4 @@
-const sendQuery = require('../../helpers/sendQuery');
+const sendQuery = require('../../../helpers/sendQuery');
 
 // Función para obtener todos los cafés
 const getAllCoffees = callback => {
@@ -13,6 +13,19 @@ const getAllCoffees = callback => {
 	});
 };
 
+const getCoffeeById = (id, callback) => {
+	const query = 'Select * from coffes where id = ?';
+	sendQuery(query, [id], (err, result) => {
+		if (err) {
+			console.error('Error al obtener el café:', err);
+			callback(err, null); // Si hay error, lo pasamos al callback
+		} else {
+			callback(null, result); // Si no hay error, pasamos el resultado al callback
+		}
+	});
+};
+
 module.exports = {
-	getAllCoffees
+	getAllCoffees,
+	getCoffeeById
 };

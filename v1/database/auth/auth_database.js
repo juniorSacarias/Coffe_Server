@@ -1,4 +1,4 @@
-const sendQuery = require('../../helpers/sendQuery');
+const sendQuery = require('../../../helpers/sendQuery');
 
 const getUserByUserName = (userName, callback) => {
 	const query = 'SELECT * FROM users WHERE userName = ?';

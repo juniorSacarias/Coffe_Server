@@ -1,4 +1,4 @@
-const authServices = require('../services/auth_services');
+const authServices = require('../../services/auth/auth_services');
 
 /**
  * Registers a new user.

@@ -13,8 +13,8 @@ dotenv.config();
 
 const Port = process.env.PORT || 4000;
 
-const v1CoffeRouter = require('./v1/routes/coffes_routes');
-const v1AuthRouter = require('./v1/routes/auth_routes');
+const v1CoffeRouter = require('./v1/routes/coffe/coffes_routes');
+const v1AuthRouter = require('./v1/routes/auth/auth_routes');
 
 // Middlewares
 

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
-const authDatabases = require('../database/auth_database');
+const authDatabases = require('../../database/auth/auth_database');
 
 dotenv.config();
 

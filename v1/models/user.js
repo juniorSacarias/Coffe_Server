@@ -19,7 +19,7 @@ const User = sequelize.define(
 		},
 		type: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		imageLink: {
 			type: DataTypes.STRING,

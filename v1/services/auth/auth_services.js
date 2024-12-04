@@ -60,7 +60,7 @@ const registerUser = (newUser, callback) => {
 			const userToCreate = {
 				userName: newUser.username,
 				password: hashedPassword,
-				type: newUser.type,
+				type: newUser.type || null,
 				imageLink: newUser.imageLink || null
 			};
 			

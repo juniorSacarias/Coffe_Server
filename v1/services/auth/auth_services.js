@@ -6,30 +6,27 @@ const authDatabases = require('../../database/auth/auth_database');
 dotenv.config();
 
 const authenticateUser = (userName, password, callback) => {
-	// Llamada a la base de datos para obtener el usuario
 	authDatabases.getUserByUserName(userName, (err, user) => {
 		if (err) {
-			return callback(err, null); // Si hay un error en la consulta, lo pasamos al callback
+			return callback(err, null);
 		}
 
 		if (!user) {
 			console.error('Usuario no encontrado');
-			return callback(new Error('Usuario no encontrado'), null); // Usuario no encontrado
+			return callback(new Error('Usuario no encontrado'), null);
 		}
 
-		// Comparar la contraseña usando bcrypt
 		bcrypt.compare(password, user.password, (err, passwordMatch) => {
 			if (err) {
 				console.error('Error al comparar la contraseña', err);
-				return callback(err, null); // Si hay un error en la comparación, lo pasamos al callback
+				return callback(err, null);
 			}
 
 			if (!passwordMatch) {
 				console.error('Contraseña incorrecta');
-				return callback(new Error('Contraseña incorrecta'), null); // Contraseña incorrecta
+				return callback(new Error('Contraseña incorrecta'), null);
 			}
 
-			// Si la contraseña es correcta, generamos el token
 			const token = jwt.sign(
 				{
 					userName: user.userName,
@@ -39,30 +36,37 @@ const authenticateUser = (userName, password, callback) => {
 				{ expiresIn: '1h' }
 			);
 
-			callback(null, token); // Pasamos el token al callback
+			callback(null, token);
 		});
 	});
 };
 
 const registerUser = (userName, password, callback) => {
-	// Encriptar la contraseña antes de guardarla en la base de datos
-	bcrypt.hash(password, 10, (err, hashedPassword) => {
+	authDatabases.getUserByUserName(userName, (err, user) => {
 		if (err) {
-			console.error('Error al encriptar la contraseña:', err);
-			return callback(err, null); // Si hay un error en el hash, lo pasamos al callback
+			return callback(err, null);
 		}
 
-		// Crear el objeto de usuario con la contraseña encriptada
-		const user = { userName, password: hashedPassword };
+		if (user) {
+			return callback(new Error('El usuario ya está registrado'), null);
+		}
 
-		// Llamada al servicio de base de datos para registrar el usuario
-		authDatabases.registerUser(user, (err, result) => {
+		bcrypt.hash(password, 10, (err, hashedPassword) => {
 			if (err) {
-				console.error('Error al crear el usuario:', err);
-				return callback(err, null); // Si hay un error al guardar el usuario en la base de datos, lo pasamos al callback
+				console.error('Error al encriptar la contraseña:', err);
+				return callback(err, null);
 			}
 
-			return callback(null, result); // Devolvemos el resultado de la creación del usuario
+			const newUser = { userName, password: hashedPassword };
+
+			authDatabases.registerUser(newUser, (err, result) => {
+				if (err) {
+					console.error('Error al crear el usuario:', err);
+					return callback(err, null);
+				}
+
+				return callback(null, result);
+			});
 		});
 	});
 };

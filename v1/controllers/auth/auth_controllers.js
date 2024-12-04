@@ -50,13 +50,15 @@ const login = (req, res) => {
 const registerUser = (req, res) => {
 	const { userName, password } = req.body;
 
-	// Llamamos al servicio para registrar el usuario
 	authServices.registerUser(userName, password, (err, result) => {
 		if (err) {
-			return res.status(500).json({ error: err.message }); // Si hay un error al registrar, devolvemos un error
+			if (err.message === 'El usuario ya está registrado') {
+				return res.status(400).json({ error: err.message });
+			}
+			return res.status(500).json({ error: err.message });
 		}
 
-		return res.status(201).json({ message: 'Usuario creado con éxito', userId: result.insertId });
+		return res.status(201).json({ message: 'Usuario creado con éxito', userId: result.id });
 	});
 };
 

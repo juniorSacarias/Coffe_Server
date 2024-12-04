@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 const verifyToken = require('./middelwares/authMiddelware');
 
 // Inicializations
-
 const app = express();
 
 dotenv.config();
@@ -17,19 +16,21 @@ const v1CoffeRouter = require('./v1/routes/coffe/coffes_routes');
 const v1AuthRouter = require('./v1/routes/auth/auth_routes');
 
 // Middlewares
-
 app.use(morgan('dev'));
-
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: false }));
-
 app.use(cors());
 
 // Routes
 app.use('/api/v1/auth', v1AuthRouter);
 app.use('/api/v1/coffes', verifyToken, v1CoffeRouter);
 
-// Server
+// Exportar la aplicación para pruebas
+module.exports = app;
 
-app.listen(Port, console.log(`Server running on port ${Port}`));
+// Iniciar el servidor solo si este archivo se ejecuta directamente
+if (require.main === module) {
+	app.listen(Port, () => {
+		console.log(`Server running on port ${Port}`);
+	});
+}

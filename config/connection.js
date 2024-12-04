@@ -1,4 +1,4 @@
-const { configDotenv } = require('dotenv');
+/*const { configDotenv } = require('dotenv');
 const mysql = require('mysql2');
 configDotenv();
 
@@ -26,4 +26,8 @@ connection.connect(err => {
 });
 
 // Exportar conexión
-module.exports = connection;
+module.exports = connection;*/
+
+const sequelize = require('./sequelize');
+
+module.exports = sequelize;

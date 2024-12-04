@@ -1,6 +1,6 @@
 const mysqlConnection = require('../config/connection');
 
-// Función para ejecutar consultas a la base de datos
+// Función para ejecutar consultas a la base de datos usando mysql2
 const sendQuery = (query, values, callback) => {
 	mysqlConnection.query(query, values, (err, result) => {
 		if (err) {

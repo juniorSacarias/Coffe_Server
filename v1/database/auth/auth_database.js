@@ -1,29 +1,30 @@
-const sendQuery = require('../../../helpers/sendQuery');
+const User = require('../../models/user');
 
-const getUserByUserName = (userName, callback) => {
-	const query = 'SELECT * FROM users WHERE userName = ?';
-	sendQuery(query, [userName], (err, result) => {
-		if (err) {
-			console.error('Error en la consulta de usuario', err);
-			callback(err, null);
-		}
-		if (result?.length === 0) {
+const getUserByUserName = async (userName, callback) => {
+	try {
+		const user = await User.findOne({ where: { userName } });
+		if (!user) {
 			console.error('No se ha encontrado el usuario');
-			callback(null, null); // Devuelve null si no se encuentra el usuario
+			return callback(null, null);
 		}
-		callback(null, result[0]); // Si todo va bien, pasa el resultado
-	});
+		callback(null, user);
+	} catch (err) {
+		console.error('Error en la consulta de usuario', err);
+		callback(err, null);
+	}
 };
 
-const registerUser = (user, callback) => {
-	const query = 'INSERT INTO users (userName, password) VALUES (?, ?)';
-	sendQuery(query, [user.userName, user.password], (err, result) => {
-		if (err) {
-			console.error('Error al registrar el usuario:', err);
-			callback(err, null); // Si hay un error, lo pasamos al callback
-		}
-		callback(null, result); // Devolvemos el resultado de la inserción si no hay error
-	});
+const registerUser = async (user, callback) => {
+	try {
+		const newUser = await User.create({
+			userName: user.userName,
+			password: user.password
+		});
+		callback(null, newUser);
+	} catch (err) {
+		console.error('Error al registrar el usuario:', err);
+		callback(err, null);
+	}
 };
 
 module.exports = {

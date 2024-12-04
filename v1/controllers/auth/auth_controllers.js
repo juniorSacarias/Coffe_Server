@@ -18,14 +18,15 @@ const authServices = require('../../services/auth/auth_services');
  */
 
 const login = (req, res) => {
-	const { userName, password } = req.body;
+	const { username, password } = req.body;
+	console.log(req.body);
 
 	// Llamamos a authenticateUser con callback
-	authServices.authenticateUser(userName, password, (err, token) => {
+	authServices.authenticateUser(username, password, (err, token) => {
 		if (err) {
 			return res.status(401).json({ message: err.message }); // Si hay un error, respondemos con 401
 		}
-		res.status(200).json({ token, userName }); // Si todo está bien, respondemos con el token
+		res.status(200).json({ token, username }); // Si todo está bien, respondemos con el token
 	});
 };
 

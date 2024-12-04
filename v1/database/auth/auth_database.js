@@ -14,11 +14,14 @@ const getUserByUserName = async (userName, callback) => {
 	}
 };
 
-const registerUser = async (user, callback) => {
+const registerUser = async (userToCreate, callback) => {
+	console.log(userToCreate);
 	try {
 		const newUser = await User.create({
-			userName: user.userName,
-			password: user.password
+			userName: userToCreate.userName,
+			password: userToCreate.password,
+			type: userToCreate.type,
+			imageLink: userToCreate.imageLink || null
 		});
 		callback(null, newUser);
 	} catch (err) {

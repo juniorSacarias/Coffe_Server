@@ -48,9 +48,16 @@ const login = (req, res) => {
  */
 
 const registerUser = (req, res) => {
-	const { userName, password } = req.body;
+	const { username, password, type, imageLink } = req.body;
 
-	authServices.registerUser(userName, password, (err, result) => {
+	const newUser = {
+		username,
+		password,
+		type,
+		imageLink
+	};
+
+	authServices.registerUser(newUser, (err, result) => {
 		if (err) {
 			if (err.message === 'El usuario ya está registrado') {
 				return res.status(400).json({ error: err.message });

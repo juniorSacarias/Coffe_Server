@@ -41,8 +41,8 @@ const authenticateUser = (userName, password, callback) => {
 	});
 };
 
-const registerUser = (userName, password, callback) => {
-	authDatabases.getUserByUserName(userName, (err, user) => {
+const registerUser = (newUser, callback) => {
+	authDatabases.getUserByUserName(newUser.username, (err, user) => {
 		if (err) {
 			return callback(err, null);
 		}
@@ -51,15 +51,20 @@ const registerUser = (userName, password, callback) => {
 			return callback(new Error('El usuario ya está registrado'), null);
 		}
 
-		bcrypt.hash(password, 10, (err, hashedPassword) => {
+		bcrypt.hash(newUser.password, 10, (err, hashedPassword) => {
 			if (err) {
 				console.error('Error al encriptar la contraseña:', err);
 				return callback(err, null);
 			}
 
-			const newUser = { userName, password: hashedPassword };
-
-			authDatabases.registerUser(newUser, (err, result) => {
+			const userToCreate = {
+				userName: newUser.username,
+				password: hashedPassword,
+				type: newUser.type,
+				imageLink: newUser.imageLink || null
+			};
+			
+			authDatabases.registerUser(userToCreate, (err, result) => {
 				if (err) {
 					console.error('Error al crear el usuario:', err);
 					return callback(err, null);

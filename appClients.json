@@ -1,0 +1,19 @@
+{
+	"appClients": [
+		{
+			"id": 1,
+			"appTitle": "ahastudio",
+			"imageLink": "https://res.cloudinary.com/dgekm2gqi/image/upload/v1733323211/ahastudioLogo_qexjmi.jpg"
+		},
+		{
+			"id": 2,
+			"appTitle": "Volenday",
+			"imageLink": "https://res.cloudinary.com/dgekm2gqi/image/upload/v1733423462/volenday_logo_egxgq3.jpg"
+		},
+		{
+			"id": 3,
+			"appTitle": "ahamatic",
+			"imageLink": "https://res.cloudinary.com/dgekm2gqi/image/upload/v1733323211/ahastudioLogo_qexjmi.jpg"
+		}
+	]
+}

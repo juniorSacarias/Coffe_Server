@@ -15,6 +15,7 @@ const Port = process.env.PORT || 4000;
 const v1CoffeRouter = require('./v1/routes/coffe/coffes_routes');
 const v1AuthRouter = require('./v1/routes/auth/auth_routes');
 const v1AppClientRouter = require('./v1/routes/appClient/appClient_routes');
+const v1AppScanCodeRouter = require('./v1/routes/scanCode/scanCode_routes');
 
 // Middlewares
 app.use(morgan('dev'));
@@ -26,6 +27,7 @@ app.use(cors({ origin: '*' }));
 app.use('/api/v1/auth', v1AuthRouter);
 app.use('/api/v1/coffes', verifyToken, v1CoffeRouter);
 app.use('/api/v1/appClients', v1AppClientRouter);
+app.use('/api/v1/scanCode', v1AppScanCodeRouter);
 
 // Exportar la aplicación para pruebas
 module.exports = app;
